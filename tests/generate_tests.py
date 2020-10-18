@@ -3,7 +3,6 @@ import random
 
 random.seed(42)
 
-
 with open("add.txt", "w") as f:
     for i in range(100):
         first = random.randint(-100, 100) ** random.randint(1, 100)

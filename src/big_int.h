@@ -54,6 +54,5 @@ public:
     void debug_print() const;
 };
 
-
 std::ostream& operator <<(std::ostream& out, const big_int& bi);
 #endif //BIGINT_BIG_INT_H

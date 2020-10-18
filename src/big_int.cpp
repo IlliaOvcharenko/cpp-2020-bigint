@@ -59,7 +59,6 @@ bool big_int::operator >(const big_int& second) const {
             int first_num = sign_m ? nums_m[i] : -nums_m[i];
             int second_num = sign_m ? second.nums_m[i] : - second.nums_m[i];
 
-//                std::cout << first_num << " > " << second_num << std::endl;
             if (first_num > second_num) {
                 result = true;
                 break;
@@ -123,7 +122,6 @@ bool big_int::operator <=(const big_int& second) const {
 
 big_int big_int::operator +(const big_int& second) const {
     big_int first = *this;
-//        std::cout << first.to_string() << " + " << second.to_string() << std::endl;
 
     if (first.sign_m && !second.sign_m) {
         return first - second.abs();
@@ -139,9 +137,6 @@ big_int big_int::operator +(const big_int& second) const {
         return second + first;
     }
 
-//        std::cout << first.to_string() << std::endl;
-//        std::cout << second.to_string() << std::endl;
-
     big_int out;
     out.nums_m.pop_back();
 
@@ -153,8 +148,6 @@ big_int big_int::operator +(const big_int& second) const {
 
         int value = first_num + second_num + carry_over;
         carry_over = 0;
-
-//            std::cout << first_num << " + " << second_num << " + " << carry_over << " = " << value << std::endl;
 
         if (value >= base_m) {
             carry_over = 1;
@@ -172,7 +165,6 @@ big_int big_int::operator +(const big_int& second) const {
 
 big_int big_int::operator -(const big_int& second) const {
     big_int first = *this;
-//    std::cout << first.to_string() << " - " << second.to_string() << std::endl;
 
     if (first.sign_m && !second.sign_m) {
         return first + second.abs();
@@ -202,8 +194,6 @@ big_int big_int::operator -(const big_int& second) const {
 
         int value = first_num - second_num - carry_over;
 
-//            std::cout << first_num << " - " << second_num << " = " << value << std::endl;
-
         if (value < 0) {
             carry_over = 1;
             value += base_m;
@@ -220,7 +210,6 @@ big_int big_int::operator -(const big_int& second) const {
 
 big_int big_int::operator *(const big_int& second) const {
     big_int first = *this;
-//        std::cout << first.to_string() << " * " << second.to_string() << std::endl;
 
     if (first.sign_m && !second.sign_m) {
         big_int res = first * second.abs();
@@ -259,7 +248,6 @@ big_int big_int::operator *(const big_int& second) const {
         }
 
         out.nums_m[j + first.nums_m.size()] += carry_over;
-
     }
 
     out.remove_leading_zero();
@@ -267,8 +255,6 @@ big_int big_int::operator *(const big_int& second) const {
 }
 
 big_int big_int::operator /(const big_int& second) const {
-//    std::cout << to_string() << " / " << second.to_string() << std::endl;
-
     if (sign_m && !second.sign_m) {
         big_int res = *this / second.abs();
         res.sign_m = !res.sign_m;
@@ -303,7 +289,6 @@ big_int big_int::operator /(const big_int& second) const {
         dividend = dividend - (second * step_q);
         q = q + step_q;
     }
-//        std::cout << "remainder: " << dividend.to_string() << std::endl;
     return q;
 }
 
@@ -376,10 +361,6 @@ string big_int::to_string() const {
     }
 
     if (!sign_m && (*this != 0)) {
-//        std::cout << "debug" << std::endl;
-//        debug_print();
-//        std::cout << "debug end" << std::endl;
-
         out_str = '-' + out_str;
     }
     return out_str;
