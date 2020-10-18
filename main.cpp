@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "src/big_int.h"
+#include "big_int.h"
 
 
 using std::string;

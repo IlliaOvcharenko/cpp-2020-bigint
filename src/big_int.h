@@ -47,8 +47,9 @@ public:
     big_int operator ++(int);
     big_int& operator --();
     big_int operator --(int);
-    big_int abs() const;
 
+    big_int abs() const;
+    bool is_zero() const;
     string to_string() const;
     void debug_print() const;
 };

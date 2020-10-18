@@ -37,7 +37,9 @@ size_t big_int::get_num_of_digits() const {
 
 
 bool big_int::operator >(const big_int& second) const {
-    if (sign_m && !second.sign_m) {
+    if (is_zero() && second.is_zero()) {
+        return false;
+    } else if (sign_m && !second.sign_m) {
         return true;
     } else if (!sign_m && second.sign_m) {
         return false;
@@ -70,7 +72,9 @@ bool big_int::operator >(const big_int& second) const {
 }
 
 bool big_int::operator <(const big_int& second) const {
-    if (sign_m && !second.sign_m) {
+    if (is_zero() && second.is_zero()) {
+        return false;
+    } else if (sign_m && !second.sign_m) {
         return false;
     } else if (!sign_m && second.sign_m) {
         return true;
@@ -168,7 +172,7 @@ big_int big_int::operator +(const big_int& second) const {
 
 big_int big_int::operator -(const big_int& second) const {
     big_int first = *this;
-//        std::cout << first.to_string() << " - " << second.to_string() << std::endl;
+//    std::cout << first.to_string() << " - " << second.to_string() << std::endl;
 
     if (first.sign_m && !second.sign_m) {
         return first + second.abs();
@@ -263,7 +267,19 @@ big_int big_int::operator *(const big_int& second) const {
 }
 
 big_int big_int::operator /(const big_int& second) const {
-    std::cout << to_string() << " / " << second.to_string() << std::endl;
+//    std::cout << to_string() << " / " << second.to_string() << std::endl;
+
+    if (sign_m && !second.sign_m) {
+        big_int res = *this / second.abs();
+        res.sign_m = !res.sign_m;
+        return res;
+    } else if (!sign_m && second.sign_m) {
+        big_int res = abs() / second;
+        res.sign_m = !res.sign_m;
+        return res;
+    } else if (!sign_m && !second.sign_m) {
+        return abs() / second.abs();
+    }
 
 
     big_int q(0);
@@ -272,10 +288,10 @@ big_int big_int::operator /(const big_int& second) const {
     big_int dividend(*this);
     while (second <= dividend) {
         size_t dividend_len = dividend.get_num_of_digits();
-        size_t len_diff = dividend_len - second_len;
+        int len_diff = (int) dividend_len - (int) second_len;
 
         string step_q_str;
-        if (len_diff != 0) {
+        if (len_diff > 0) {
             step_q_str = string(len_diff, '0');
             step_q_str[0] = '1';
         } else {
@@ -338,6 +354,13 @@ big_int big_int::abs() const  {
     return out;
 }
 
+bool big_int::is_zero() const {
+    if ((nums_m.size() == 1) && (nums_m[0] == 0)) {
+        return true;
+    }
+    return false;
+}
+
 string big_int::to_string() const {
     string out_str;
 
@@ -352,7 +375,11 @@ string big_int::to_string() const {
 
     }
 
-    if (!sign_m) {
+    if (!sign_m && (*this != 0)) {
+//        std::cout << "debug" << std::endl;
+//        debug_print();
+//        std::cout << "debug end" << std::endl;
+
         out_str = '-' + out_str;
     }
     return out_str;
